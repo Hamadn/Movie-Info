@@ -167,3 +167,15 @@ class MovieApp(tk.Tk, MovieFunctions):
         # Configure grid weights for expansion
         parent.columnconfigure(0, weight=1)
         parent.rowconfigure(row, weight=1)
+
+
+# Run the application
+if __name__ == "__main__":
+    # Create an instance of the MovieApp class
+    app = MovieApp()
+    # Load the "azure.tcl" theme file
+    app.tk.call("source", "azure.tcl")
+    # Set the theme to "dark"
+    app.tk.call("set_theme", "dark")
+    # Start the application's main event loop
+    app.mainloop()
