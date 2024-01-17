@@ -22,3 +22,24 @@ class MovieApp(tk.Tk, MovieFunctions):
         self.initialize_movie_functions()
         # Create the widgets
         self.create_widgets()
+
+    def create_widgets(self):
+
+        # Create a notebook with two tabs: Movies and Playlist
+        self.notebook = ttk.Notebook(self)
+
+        # Movies tab
+        movies_tab = ttk.Frame(self.notebook)
+        # Create the movies tab
+        self.create_movies_tab(movies_tab)
+        # Add the movies tab to the notebook
+        self.notebook.add(movies_tab, text='Movies')
+
+        # Playlist tab
+        playlist_tab = ttk.Frame(self.notebook)
+        # Create the playlist tab
+        self.create_playlist_tab(playlist_tab)
+        # Add the playlist tab to the notebook
+        self.notebook.add(playlist_tab, text='Playlist')
+        # Pack the notebook to make it visible
+        self.notebook.pack(expand=True, fill='both')
