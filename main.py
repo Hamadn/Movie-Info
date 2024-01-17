@@ -108,3 +108,62 @@ class MovieApp(tk.Tk, MovieFunctions):
                 movie_info['title']} ({movie_info['year']})")
             # Pack the label to make it visible
             movie_label.pack()
+
+    def display_movie(self, parent, movie_data, row, command=None):
+        # Create a frame for each movie
+        frame = tk.Frame(parent, padx=10, pady=10)
+        # Place the frame in the grid
+        frame.grid(row=row, column=0, sticky='news', pady=10)
+
+        # Check if the movie has a poster
+        if movie_data.poster_path:
+            # Construct the URL for the movie poster
+            image_url = f"https://image.tmdb.org/t/p/w500{
+                movie_data.poster_path}"
+            # Send a GET request to the URL
+            response = requests.get(image_url)
+            # Check if the request was successful
+            if response.status_code == 200:
+                # Open the image and resize it
+                image = Image.open(BytesIO(response.content))
+                image = image.resize((100, 150))
+                # Create a PhotoImage object for the image
+                photo = ImageTk.PhotoImage(image)
+                # Create a label for the image and add it to the frame
+                image_label = ttk.Label(frame, image=photo)
+                # Keep a reference to the image to prevent it from being garbage collected
+                image_label.image = photo
+                # Place the image label in the grid
+                image_label.grid(row=0, column=0, rowspan=4)
+
+        # Create a string for the movie title and year
+        title_year = f"{movie_data.title} ({movie_data.release_date[:4]})"
+        # Create a label for the title and year and add it to the frame
+        ttk.Label(frame, text=title_year, font=("Arial", 12, "bold")).grid(
+            row=0, column=1, columnspan=2, sticky='w')
+
+        # Get the TMDb rating of the movie
+        tmdb_rating = movie_data.vote_average
+        # Create a label for the TMDb rating and add it to the frame
+        tmdb_rating_label = ttk.Label(
+            frame, text=f"TMDb Rating: {tmdb_rating}")
+        tmdb_rating_label.grid(row=1, column=1, columnspan=2, sticky='w')
+
+        # Create a label for the movie overview and add it to the frame
+        overview = ttk.Label(frame, text=movie_data.overview,
+                             wraplength=600, anchor='w', justify='left')
+        overview.grid(row=2, column=1, columnspan=2, sticky='w')
+
+        # Create a button to add the movie to the playlist and add it to the frame
+        add_to_playlist_btn = ttk.Button(
+            frame, text="Add to Playlist", style="Accent.TButton", command=lambda: self.add_to_playlist(movie_data))
+        add_to_playlist_btn.grid(row=4, column=1, columnspan=2, sticky='w')
+
+        # If a command is provided, create a button to show similar movies and add it to the frame
+        if command:
+            ttk.Button(frame, text="Show Similar", style="Accent.TButton", command=lambda: command(
+                movie_data.id)).grid(row=3, column=1, columnspan=2, sticky='w')
+
+        # Configure grid weights for expansion
+        parent.columnconfigure(0, weight=1)
+        parent.rowconfigure(row, weight=1)
