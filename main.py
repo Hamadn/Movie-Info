@@ -43,3 +43,39 @@ class MovieApp(tk.Tk, MovieFunctions):
         self.notebook.add(playlist_tab, text='Playlist')
         # Pack the notebook to make it visible
         self.notebook.pack(expand=True, fill='both')
+
+    def create_movies_tab(self, tab):
+        # Movie Search Section
+        # Create a label for movie name entry
+        ttk.Label(tab, text="Enter a movie name:",
+                  font="Calibri 10 bold").pack()
+        # Create an entry for movie name
+        self.movie_name_entry = ttk.Entry(tab, width=50)
+        # Pack the entry to make it visible
+        self.movie_name_entry.pack()
+        # Create a button to search movies
+        ttk.Button(tab, text="Search Movies", style="Accent.TButton",
+                   command=self.search_movies).pack()
+
+        # Scrolling Canvas for search results and similar movies
+        canvas = tk.Canvas(tab)
+        # Create a scrollbar for the canvas
+        scrollbar = ttk.Scrollbar(tab, orient="vertical", command=canvas.yview)
+        # Create a frame inside the canvas to hold the content
+        self.scrollable_frame = ttk.Frame(canvas)
+
+        # Configure the canvas to update the scrollregion when the size of the frame changes
+        self.scrollable_frame.bind(
+            "<Configure>",
+            lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
+        )
+
+        # Add the frame to the canvas
+        canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
+        # Configure the canvas to use the scrollbar
+        canvas.configure(yscrollcommand=scrollbar.set)
+
+        # Pack the main content
+        canvas.pack(side="left", fill="both", expand=True)
+        # Pack the scrollbar to the right of the canvas
+        scrollbar.pack(side="right", fill='y')
