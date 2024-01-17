@@ -79,3 +79,19 @@ class MovieApp(tk.Tk, MovieFunctions):
         canvas.pack(side="left", fill="both", expand=True)
         # Pack the scrollbar to the right of the canvas
         scrollbar.pack(side="right", fill='y')
+
+    def create_playlist_tab(self, tab):
+        # Playlist Frame
+        # Create a frame for the playlist
+        playlist_frame = ttk.Frame(tab, width=200)
+        playlist_frame.pack(fill='y')
+
+        # Title for the Playlist Frame
+        # Create a label for the playlist title
+        playlist_title = ttk.Label(
+            playlist_frame, text="Your Playlist", font=("Arial", 12, "bold"))
+        playlist_title.pack()
+
+        # Frame for the movie entries in the playlist
+        self.playlist_movies_frame = ttk.Frame(playlist_frame)
+        self.playlist_movies_frame.pack(fill='both', expand=True)
