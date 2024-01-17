@@ -187,3 +187,20 @@ class MovieFunctions:
             # Show an error message if a value error occurs
             tk.messagebox.showerror(
                 "Error", "Invalid input. Please enter valid years.")
+
+    # Define a function to add a movie to the playlist
+    def add_to_playlist(self, movie):
+        # Check if the playlist attribute exists
+        if not hasattr(self, 'playlist'):
+            # If not, initialize it as an empty list
+            self.playlist = []
+
+        # Create a dictionary with the movie's information
+        movie_info = {'id': movie.id, 'title': movie.title,
+                      'year': movie.release_date[:4]}
+        # Check if the movie is already in the playlist
+        if movie_info not in self.playlist:
+            # If not, add it to the playlist
+            self.playlist.append(movie_info)
+            # Refresh the playlist display
+            self.update_playlist_display()  # Refresh the playlist display
