@@ -204,3 +204,12 @@ class MovieFunctions:
             self.playlist.append(movie_info)
             # Refresh the playlist display
             self.update_playlist_display()  # Refresh the playlist display
+
+    def display_similar_movies(self, movies):
+        # Start displaying movies from the second row, as the first row is the year range frame
+        movie_row_index = 2
+        for m in movies:
+            # Display each movie in the list of similar movies
+            self.display_movie(self.scrollable_frame, m, movie_row_index)
+            # Increment the row index for the next movie
+            movie_row_index += 1
