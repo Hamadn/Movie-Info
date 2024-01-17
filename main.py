@@ -95,3 +95,16 @@ class MovieApp(tk.Tk, MovieFunctions):
         # Frame for the movie entries in the playlist
         self.playlist_movies_frame = ttk.Frame(playlist_frame)
         self.playlist_movies_frame.pack(fill='both', expand=True)
+
+    def update_playlist_display(self):
+        # Clear the current content of the movies frame in the playlist
+        for widget in self.playlist_movies_frame.winfo_children():
+            widget.destroy()
+
+        # Display movies in the playlist
+        for movie_info in self.playlist:
+            # Create a label for each movie in the playlist, displaying the title and year
+            movie_label = ttk.Label(self.playlist_movies_frame, text=f"{
+                movie_info['title']} ({movie_info['year']})")
+            # Pack the label to make it visible
+            movie_label.pack()
